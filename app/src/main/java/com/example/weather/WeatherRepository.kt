@@ -1,7 +1,6 @@
 package com.example.weather
 
-import android.util.Log
-import com.example.weather.databinding.ItemForecastBinding
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

@@ -10,6 +10,7 @@ import android.os.Build
 import android.widget.RemoteViews
 import androidx.core.content.ContextCompat
 
+
 class WeatherAppWidgetProvider : AppWidgetProvider() {
 
     override fun onUpdate(
@@ -20,9 +21,9 @@ class WeatherAppWidgetProvider : AppWidgetProvider() {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
 
         appWidgetIds.forEach { appWidgetId ->
-            val pendingIntent: PendingIntent = Intent(context, MainActivity::class.java)
+            val pendingIntent: PendingIntent = Intent(context, UpdateWeatherService::class.java)
                 .let { intent ->
-                    PendingIntent.getActivity(
+                    PendingIntent.getForegroundService(
                         context,
                         1,
                         intent,
@@ -37,17 +38,17 @@ class WeatherAppWidgetProvider : AppWidgetProvider() {
             }
             appWidgetManager.updateAppWidget(appWidgetId, views)
         }
-//        val serviceIntent = Intent(context, UpdateWeatherService::class.java)
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//            try {
-//                ContextCompat.startForegroundService(context, serviceIntent)
-//
-//            } catch (e: ForegroundServiceStartNotAllowedException) {
-//                e.printStackTrace()
-//            }
-//        } else {
-//            ContextCompat.startForegroundService(context, serviceIntent)
-//        }
+        val serviceIntent = Intent(context, UpdateWeatherService::class.java)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            try {
+                ContextCompat.startForegroundService(context, serviceIntent)
+
+            } catch (e: ForegroundServiceStartNotAllowedException) {
+                e.printStackTrace()
+            }
+        } else {
+            ContextCompat.startForegroundService(context, serviceIntent)
+        }
     }
 }
